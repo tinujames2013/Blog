@@ -1,0 +1,107 @@
+{% extends 'userpanel/user_base.html' %}
+
+{% block title %} View Blog {% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="text-white">{{ blog.title }}</h1>
+            <p class="text-light">
+                <strong>Author:</strong> {{ blog.author.username }} | 
+                <strong>Posted on:</strong> {{ blog.created_at|date:"d M Y" }} |
+                <strong>Last Updated:</strong> {{ last_updated|date:"d M Y H:i" }}
+            </p>
+
+            <!-- Blog Image with proper aspect ratio -->
+            {% if blog.blog_image %}
+                <img src="{{ blog.blog_image.url }}" class="img-fluid mb-4" alt="{{ blog.title }}">
+            {% endif %}
+
+            <p class="text-light">{{ blog.content }}</p>
+
+            <hr class="text-light">
+            <h4 class="text-white">Comments ({{ comments.count }})</h4>
+            <div class="comments-section bg-dark p-4 rounded">
+                {% for comment in comments %}
+                    <div class="comment mb-3">
+                        <p><strong class="text-primary">{{ comment.user.username }}:</strong> {{ comment.comment }}</p>
+                        <p class="text-muted"><small>{{ comment.created_at|date:"d M Y H:i" }}</small></p>
+                        {% if comment.user == request.user %}
+                            <a href="{% url 'userpanel:edit_comment' comment.id %}" class="text-info">Edit</a> | 
+                            <a href="{% url 'userpanel:delete_comment' comment.id %}" class="text-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                        {% endif %}
+                        <hr>
+                    </div>
+                {% empty %}
+                    <p class="text-light">No comments yet.</p>
+                {% endfor %}
+            </div>
+
+            <!-- Add new comment form -->
+            {% if user.is_authenticated %}
+            <div class="add-comment mt-4">
+                <h5 class="text-white">Add a Comment:</h5>
+                <form method="POST" action="{% url 'userpanel:add_comment' blog.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <textarea name="comment" rows="4" class="form-control bg-light text-dark" placeholder="Enter your comment"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                </form>
+            </div>
+            {% else %}
+            <p class="text-light"><a href="{% url 'login' %}">Login</a> to add a comment.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% load static %}
+
+<style>
+    body {
+        background-color: #004080; /* Adjust background color for better readability */
+    }
+
+    .img-fluid {
+        max-width: 100%; /* Ensure the image doesn't exceed its container width */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    .text-light {
+        color: #f8f9fa !important; /* Light text for better contrast */
+    }
+
+    .text-white {
+        color: #ffffff !important;
+    }
+
+    .text-primary {
+        color: #17a2b8 !important; /* Light blue color for comment author */
+    }
+
+    .bg-dark {
+        background-color: #343a40 !important; /* Dark background for comments section */
+    }
+
+    .comment {
+        padding: 10px;
+        background-color: #f1f1f1; /* Light background for individual comments */
+        border-radius: 5px;
+    }
+
+    .form-control {
+        background-color: #f8f9fa; /* Light input background */
+        color: #343a40; /* Dark text in inputs */
+    }
+
+    h5 {
+        color: #ffffff;
+    }
+
+    hr {
+        border-color: #ffffff;
+    }
+</style>

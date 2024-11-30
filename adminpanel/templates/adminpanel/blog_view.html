@@ -1,0 +1,43 @@
+{% extends 'adminpanel/admin_base.html' %}  <!-- Adjust this based on your layout -->
+
+{% block title %}
+    {{ blog.title }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ blog.title }}</h1>
+    <p><strong>Author:</strong> {{ blog.author.username }} | <strong>Posted on:</strong> {{ blog.created_at|date:"d M Y" }}</p>
+    {% if blog.blog_image %}
+        <img src="{{ blog.blog_image.url }}" alt="{{ blog.title }}" class="img-fluid mb-4" style="max-height: 400px; object-fit: cover;">
+    {% else %}
+        <p>No image available for this blog.</p>
+    {% endif %}
+    
+    <p>{{ blog.content }}</p>
+
+    <hr>
+    <div class="mt-4">
+        <a href="{% url 'adminpanel:blog_list' %}" class="btn btn-secondary">Back to Blog List</a>
+        <a href="{% url 'userpanel:edit_blog' blog.id %}" class="btn btn-warning">Edit Blog</a>
+        <a href="{% url 'userpanel:delete_blog' blog.id %}" class="btn btn-danger">Delete Blog</a>
+    </div>
+</div>
+{% endblock %}
+
+{% load static %}
+
+<style>
+    body {
+        background-color: #f8f9fa; /* Light background color */
+        color: #343a40; /* Dark color for text */
+    }
+
+    h1 {
+        font-weight: 600; /* Bold title */
+    }
+
+    .btn {
+        margin-right: 5px; /* Space between buttons */
+    }
+</style>

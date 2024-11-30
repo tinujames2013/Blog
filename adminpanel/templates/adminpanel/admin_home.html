@@ -1,0 +1,130 @@
+{% extends 'adminpanel/admin_base.html' %}
+
+{% block title %}
+Admin Panel | Dashboard
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-light">Admin Dashboard</h1>
+    <hr class="text-light">
+    
+    <h2 class="text-light">Welcome, {{ user.username }}!</h2>
+
+    <!-- Manage Users -->
+    <div class="mt-5">
+        <h3 class="text-light">Manage Users</h3>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    {% if user.is_active %}
+    Active
+{% else %}
+    Inactive
+{% endif %}
+
+                    <td>
+                        <form method="post" action="{% url 'adminpanel:toggle_user_status' user.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm {% if user.is_active %}btn-danger{% else %}btn-success{% endif %}">
+                                {% if user.is_active %}
+                                    Deactivate
+                                {% else %}
+                                    Activate
+                                {% endif %}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Manage Blogs -->
+    <div class="mt-5">
+        <h3 class="text-light">Manage Blogs</h3>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for blog in blogs %}
+                <tr>
+                    <td>{{ blog.title }}</td>
+                    <td>{{ blog.author.username }}</td>
+                    <td>{{ blog.status }}</td>
+                    <td>
+                        <form method="post" action="{% url 'adminpanel:toggle_blog_visibility' blog.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm {% if blog.status == 'publish' %}btn-danger{% else %}btn-success{% endif %}">
+                                {% if blog.status == 'publish' %}
+                                    Hide
+                                {% else %}
+                                    Show
+                                {% endif %}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Manage Comments -->
+    <div class="mt-5">
+        <h3 class="text-light">Manage Comments</h3>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Comment</th>
+                    <th>Blog</th>
+                    <th>Author</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.comment }}</td>
+                    <td>{{ comment.blog.title }}</td>
+                    <td>{{ comment.user.username }}</td>
+                    <td>{{ comment.status }}</td>
+                    <td>
+                        <form method="post" action="{% url 'adminpanel:toggle_comment_visibility' comment.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm {% if comment.status == 'show' %}btn-danger{% else %}btn-success{% endif %}">
+                                {% if comment.status == 'show' %}
+                                    Hide
+                                {% else %}
+                                    Show
+                                {% endif %}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

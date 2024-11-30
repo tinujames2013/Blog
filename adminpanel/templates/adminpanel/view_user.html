@@ -1,0 +1,63 @@
+{% extends 'adminpanel/admin_base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4" style="color: #fff;">User Details</h1> <!-- Changed to white for better contrast -->
+
+    <div class="card">
+        <div class="card-header" style="background-color: #2e2c27; border-color: #444; color: #fff;"> <!-- Darker header background with white text -->
+            <h3>{{ user.username }}'s Profile</h3>
+        </div>
+        <div class="card-body" style="background-color: #333; color: #fff;"> <!-- Dark background for body with white text -->
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Username:</strong></div>
+                <div class="col-md-8">{{ user.username }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Email:</strong></div>
+                <div class="col-md-8">{{ user.email }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Phone:</strong></div>
+                <div class="col-md-8">{{ user.profile.phone }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Profile Description:</strong></div>
+                <div class="col-md-8">{{ user.profile.profile_description }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Joined On:</strong></div>
+                <div class="col-md-8">{{ user.date_joined|date:"Y-m-d H:i" }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>ID Proof:</strong></div>
+                <div class="col-md-8">
+                    {% if user.profile.id_proof %}
+                    <img src="{{ user.profile.id_proof.url }}" alt="ID Proof" class="img-thumbnail" width="150">
+                    {% else %}
+                    <p>No ID Proof uploaded</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Profile Image:</strong></div>
+                <div class="col-md-8">
+                    {% if user.profile.profile_image %}
+                    <img src="{{ user.profile.profile_image.url }}" alt="Profile Image" class="img-thumbnail" width="150">
+                    {% else %}
+                    <p>No Profile Image uploaded</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer" style="background-color: #2e2c27; color: #fff;"> <!-- Dark footer with white text -->
+            <a href="{% url 'adminpanel:view_user' user.id %}" class="btn btn-warning" style="color: #fff; background-color: #130f03ef; border-color: #19161a52;">View User</a>
+        
+            <a href="{% url 'adminpanel:user_list' %}" class="btn btn-secondary" style="color: #fff;">Back to User List</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% load static %}

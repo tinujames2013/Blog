@@ -1,0 +1,34 @@
+{% extends 'sitevisitor/site_base.html' %}
+{% block title %}OTP Verification{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header text-center">
+                    <h5 class="font-weight-bold text-dark">Verify Your OTP</h5> <!-- Dark text for readability -->
+                </div>
+                <div class="card-body bg-light"> <!-- Light background for contrast -->
+      
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <label for="otp">Enter OTP</label>
+                            <input type="text" name="otp" id="otp" class="form-control" placeholder="Enter the OTP sent to your email" required>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-block text-white">Verify OTP</button> <!-- Ensured button text is white for visibility -->
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'login' %}" class="text-decoration-none">Back to Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% load static %}

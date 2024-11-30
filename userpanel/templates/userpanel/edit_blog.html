@@ -1,0 +1,65 @@
+{% extends 'userpanel/user_base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Display messages (error, success, etc.) -->
+    {% if messages %}
+        <div class="alert-container">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <h2 class="text-white">Edit Blog: {{ blog.title }}</h2>
+    
+    <form method="POST" enctype="multipart/form-data" class="bg-dark p-3 rounded">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Update Blog</button>
+    </form>
+
+    <a href="{% url 'userpanel:my_blogs' %}" class="btn btn-secondary mt-4">Back to My Blogs</a>
+</div>
+{% endblock %}
+
+{% load static %}
+
+<style>
+    body {
+        background-color: #004080; /* Dark blue background */
+        color: #ffffff; /* White text for better contrast */
+    }
+
+    .container {
+        max-width: 600px; /* Shorter container width */
+        margin: 0 auto; /* Center the container */
+    }
+
+    .text-white {
+        color: #ffffff; /* Ensure titles and headings are white */
+    }
+
+    .bg-dark {
+        background-color: #343a40; /* Dark background for form area */
+    }
+
+    .form-control {
+        background-color: #f8f9fa; /* Light background for form inputs */
+        color: #000000; /* Dark text color for inputs */
+    }
+
+    .btn-primary, .btn-secondary {
+        width: 100%; /* Make buttons span full width of the form */
+    }
+
+    .btn-secondary {
+        margin-top: 20px;
+    }
+
+    .alert-container {
+        margin-bottom: 20px;
+    }
+</style>

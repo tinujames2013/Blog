@@ -1,0 +1,72 @@
+{% extends 'sitevisitor/site_base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header text-center bg-dark text-white">
+                    <h3>User Login</h3>
+                </div>
+
+                <div class="card-body bg-light">
+                    <!-- Displaying Django messages for success or error -->
+                    {% if messages %}
+                        <div>
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <form method="POST" novalidate>
+                        {% csrf_token %}
+                        
+                        <!-- Username field -->
+                        <div class="form-group mb-3">
+                            {{ form.username.label_tag }}
+                            {{ form.username }}
+                            {% if form.username.errors %}
+                                <div class="text-danger">{{ form.username.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Password field -->
+                        <div class="form-group mb-3">
+                            {{ form.password.label_tag }}
+                            {{ form.password }}
+                            {% if form.password.errors %}
+                                <div class="text-danger">{{ form.password.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Remember Me checkbox -->
+                        <div class="form-group form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+
+                        <!-- Submit button -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-block text-white">Login</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Footer links -->
+                <div class="card-footer text-center bg-dark">
+                    <a href="{% url 'forgot_password' %}" class="text-light text-decoration-none">Forgot Password?</a> |
+                    <a href="{% url 'registration' %}" class="text-light text-decoration-none">Create an Account</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

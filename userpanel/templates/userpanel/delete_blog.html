@@ -1,0 +1,18 @@
+{% extends 'userpanel/user_base.html' %}
+
+{% block title %}Delete Blog{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Delete Blog</h2>
+    <hr>
+    <p>Are you sure you want to delete the blog titled "<strong>{{ blog.title }}</strong>"?</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'userpanel:user_home' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
+{% load static %}

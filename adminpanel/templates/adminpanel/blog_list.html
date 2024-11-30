@@ -1,0 +1,105 @@
+{% extends 'adminpanel/admin_base.html' %}
+
+{% block title %}
+    Blog List
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-white font-weight-bold">All Blogs</h2>
+
+    <table class="table table-hover table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th class="text-white">Title</th>
+                <th class="text-white">Author</th>
+                <th class="text-white">Created</th>
+                <th class="text-white">Status</th>
+                <th class="text-white">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for blog in blogs %}
+            <tr>
+                <td>
+                    <a href="{% url 'adminpanel:blog_view' blog.id %}" class="text-primary font-weight-bold">{{ blog.title }}</a>
+                </td>
+                <td class="text-light">{{ blog.author.username }}</td>
+                <td class="text-light">{{ blog.created_at|date:"d M Y" }}</td>
+                <td class="text-light">{{ blog.get_status_display }}</td>
+                <td>
+                    <a href="{% url 'userpanel:edit_blog' blog.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'userpanel:delete_blog' blog.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center text-danger">No blogs found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="mt-4">
+        <a href="{% url 'userpanel:add_blog' %}" class="btn btn-success">Add New Blog</a>
+    </div>
+</div>
+{% endblock %}
+
+{% load static %}
+
+<style>
+    body {
+        background-color: #343a40;
+        color: #ffffff;
+    }
+
+    .table {
+        background-color: #495057;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: white;
+    }
+
+    .thead-dark {
+        background-color: #212529;
+        color: #ffffff;
+    }
+
+    .text-primary {
+        text-decoration: underline;
+        color: #0d6efd;
+    }
+
+    .text-light {
+        color: #ced4da;
+    }
+
+    .btn {
+        margin-right: 5px;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border: none;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+
+    .btn-success {
+        background-color: #198754;
+        border: none;
+    }
+
+    .btn:hover {
+        opacity: 0.85;
+    }
+</style>

@@ -1,0 +1,107 @@
+{% extends 'userpanel/user_base.html' %}
+
+{% block title %}Blog List{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center text-white">All Blog Posts</h1>
+    
+    <!-- Filter Form to Sort Blogs by Status -->
+    <div class="filter-form mb-4 text-center">
+        <form method="GET">
+            <label for="status" class="text-white">Filter by Status:</label>
+            <select name="status" id="status" class="form-control d-inline-block" style="width: auto;">
+                <option value="">All</option>
+                <option value="publish" {% if request.GET.status == 'publish' %}selected{% endif %}>Published</option>
+                <option value="draft" {% if request.GET.status == 'draft' %}selected{% endif %}>Draft</option>
+            </select>
+            <button type="submit" class="btn btn-primary ml-2">Filter</button>
+        </form>
+    </div>
+
+    <div class="row">
+        <!-- Display Published Blogs -->
+        <div class="col-md-6">
+            <h3 class="text-white">Published Blogs</h3>
+            {% for blog in published_blogs %}
+                <div class="blog-card mb-4 p-3 border rounded shadow">
+                    <h5><a href="{% url 'userpanel:view_blog' blog.id %}" class="text-decoration-none text-primary">{{ blog.title }}</a></h5>
+                    <p class="text-muted"><strong>Author:</strong> {{ blog.author.username }} | <strong>Posted on:</strong> {{ blog.created_at|date:"d M Y" }}</p>
+                    <p class="text-light">{{ blog.content|truncatewords:20 }}</p>
+                    <a href="{% url 'userpanel:view_blog' blog.id %}" class="btn btn-info btn-sm">Read More</a>
+                </div>
+            {% empty %}
+                <div class="alert alert-warning" role="alert">
+                    No published blogs available.
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Display Draft Blogs -->
+        <div class="col-md-6">
+            <h3 class="text-white">Draft Blogs</h3>
+            {% for blog in draft_blogs %}
+                <div class="blog-card mb-4 p-3 border rounded shadow">
+                    <h5><a href="{% url 'userpanel:view_blog' blog.id %}" class="text-decoration-none text-primary">{{ blog.title }}</a></h5>
+                    <p class="text-muted"><strong>Author:</strong> {{ blog.author.username }} | <strong>Posted on:</strong> {{ blog.created_at|date:"d M Y" }}</p>
+                    <p class="text-light">{{ blog.content|truncatewords:20 }}</p>
+                    <a href="{% url 'userpanel:view_blog' blog.id %}" class="btn btn-info btn-sm">Read More</a>
+                </div>
+            {% empty %}
+                <div class="alert alert-warning" role="alert">
+                    No draft blogs available.
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% load static %}
+
+<style>
+    body {
+        background-color: #343a40; /* Dark background color for contrast */
+    }
+
+    .container {
+        background-color: #444950; /* Slightly lighter background for content */
+        border-radius: 8px;
+        padding: 30px;
+    }
+
+    h1, h3 {
+        color: #ffffff;
+    }
+
+    .blog-card {
+        background-color: #5a5f63; /* Slightly lighter background for cards */
+        color: #f8f9fa; /* Light text */
+        border: 1px solid #ced4da;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .blog-card h5 {
+        color: #007bff; /* Blue color for blog titles */
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+    .alert-warning {
+        color: #856404;
+        background-color: #fff3cd;
+        border-color: #ffeeba;
+    }
+
+    .text-muted {
+        color: #6c757d !important;
+    }
+
+    .text-light {
+        color: #f8f9fa !important;
+    }
+</style>

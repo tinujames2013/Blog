@@ -1,0 +1,45 @@
+{% extends 'userpanel/user_base.html' %}
+
+{% block title %}
+    User Panel | Home
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-light">Welcome to Your Dashboard, {{ user.username }}!</h2>
+    <hr class="text-light">
+
+    <!-- Navigation Link to View All Blogs -->
+    <div class="text-end mb-3">
+        <a href="{% url 'userpanel:blog_list' %}" class="btn btn-secondary">View All Blogs</a> <!-- Link to blog_list -->
+    </div>
+
+    <div class="mt-4">
+        <h3 class="text-light">Your Blogs</h3>
+        <div class="row">
+            {% if blogs %}
+                {% for blog in blogs %}
+                <div class="col-md-4 mb-3">
+                    <div class="card bg-dark text-white">
+                        <img src="{{ blog.blog_image.url }}" class="card-img-top" alt="{{ blog.title }}" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title text-white">{{ blog.title }}</h5>
+                            <p class="card-text text-white">{{ blog.content|truncatewords:15 }}</p>
+                            <a href="{% url 'userpanel:view_blog' blog.id %}" class="btn btn-primary">Read More</a>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{% url 'userpanel:edit_blog' blog.id %}" class="btn btn-warning">Edit</a>
+                            <a href="{% url 'userpanel:delete_blog' blog.id %}" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-light">You haven't posted any blogs yet. Start by <a href="{% url 'userpanel:add_blog' %}" class="text-primary">adding a new blog</a>.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% load static %}

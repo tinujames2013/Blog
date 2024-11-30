@@ -1,0 +1,92 @@
+{% extends 'userpanel/user_base.html' %}
+
+{% block title %}
+    My Blogs
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-white font-weight-bold">My Blogs</h2>
+
+        <table class="table table-hover table-striped table-bordered mt-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="font-weight-bold">Title</th>
+                    <th class="font-weight-bold">Created</th>
+                    <th class="font-weight-bold">Status</th>
+                    <th class="font-weight-bold">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for blog in blogs %}
+                <tr>
+                    <td class="font-weight-bold">{{ blog.title }}</td>
+                    <td class="font-weight-bold">{{ blog.created_at|date:"d M Y" }}</td>
+                    <td class="font-weight-bold">{{ blog.get_status_display }}</td>
+                    <td>
+                        <a href="{% url 'userpanel:edit_blog' blog.id %}" class="btn btn-warning btn-sm font-weight-bold">Edit</a>
+                        <a href="{% url 'userpanel:view_blog' blog.id %}" class="btn btn-info btn-sm font-weight-bold">View</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center font-weight-bold">No blogs found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% load static %}
+
+<style>
+    body {
+        background-color: #004080; /* Darker blue background for better contrast */
+        color: #ffffff; /* White text */
+    }
+
+    .table {
+        background-color: #ffffff; /* White background for the table */
+        color: #000000; /* Black text for improved readability */
+        border-radius: 10px; /* Rounded corners for the table */
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for the table */
+    }
+
+    .thead-dark {
+        background-color: #343a40; /* Dark header for contrast */
+        color: #ffffff; /* White text for the header */
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #e0e0e0; /* Light gray hover effect */
+    }
+
+    .btn-warning {
+        background-color: #ffc107; /* Bright yellow for edit button */
+        border: none;
+        font-weight: bold;
+        color: #000; /* Black text on buttons */
+    }
+
+    .btn-info {
+        background-color: #17a2b8; /* Light blue for view button */
+        border: none;
+        font-weight: bold;
+        color: #000; /* Black text on buttons */
+    }
+
+    .btn-warning:hover, .btn-info:hover {
+        opacity: 0.85; /* Slight opacity change on hover */
+    }
+
+    h2 {
+        font-weight: 700; /* Bolder heading */
+    }
+
+    td, th {
+        font-size: 1rem; /* Slightly increase font size for better readability */
+        color: #000; /* Black text for table cells */
+    }
+</style>

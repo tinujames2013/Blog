@@ -1,0 +1,40 @@
+{% extends 'sitevisitor/site_base.html' %}
+{% load static %}
+
+{% block title %}
+My blog | Home
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-light">Welcome to Your blogs, {{ user.username }}!</h2>
+    <hr class="text-light">
+
+    <div class="mt-4">
+
+        <div class="row">
+            {% if blogs %}
+                {% for blog in blogs %}
+                <div class="col-md-4 mb-3">
+                    <div class="card bg-dark text-white"> <!-- Dark background with white text -->
+                        <img src="{{ blog.blog_image.url }}" class="card-img-top" alt="{{ blog.title }}" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title text-white">{{ blog.title }}</h5> <!-- White text for title -->
+                            <p class="card-text text-white">{{ blog.content|truncatewords:15 }}</p> <!-- White text for content -->
+                            <a href="{% url 'userpanel:view_blog' blog.id %}" class="btn btn-primary">Read More</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-light">You haven't posted any blogs yet. Start by <a href="{% url 'userpanel:add_blog' %}" class="text-primary">adding a new blog</a>.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% load static %}
+
+

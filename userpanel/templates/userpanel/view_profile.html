@@ -1,0 +1,54 @@
+{% extends 'userpanel/user_base.html' %}
+
+{% load static %}
+
+{% block title %}View Profile{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2>{{ user.username }}'s Profile</h2>
+        <div class="profile-details">
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Phone:</strong> {{ profile.phone }}</p>
+            <p><strong>Description:</strong> {{ profile.profile_description }}</p>
+
+            {% if profile.profile_image %}
+                <div class="profile-image">
+                    <img src="{{ profile.profile_image.url }}" alt="Profile Image" class="img-thumbnail rounded mt-3" style="width: 150px; height: 150px; object-fit: cover;">
+                </div>
+            {% else %}
+                <p>No profile image uploaded</p>
+            {% endif %}
+        </div>
+
+        <!-- Add Edit Profile Button Here -->
+        <div class="mt-4">
+            <a href="{% url 'userpanel:edit_profile' %}" class="btn btn-primary">Edit Profile</a>
+        </div>
+    </div>
+{% endblock %}
+
+<style>
+    body {
+        background-color: #f8f9fa; /* Light background color */
+    }
+    .profile-details {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
+    .profile-image {
+        text-align: center;
+    }
+    .img-thumbnail {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for the image */
+    }
+    .btn-primary {
+        background-color: #007bff; /* Bootstrap primary color */
+        border: none;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+    }
+</style>

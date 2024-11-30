@@ -1,0 +1,12 @@
+username: bloguser
+email: tinujaimes2013@gmail.com
+password: tinublog55
+
+packages are installed: 
+Django
+Pillow
+
+The following middleware is configured in this project:
+
+'sitevisitor.middleware.NoCacheMiddleware',
+'sitevisitor.middleware.UserActiveMiddleware',

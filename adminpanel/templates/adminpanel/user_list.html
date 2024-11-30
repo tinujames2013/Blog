@@ -1,0 +1,42 @@
+{% extends 'adminpanel/admin_base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4" style="color: #f8f9fa;">User List</h1> <!-- Changed to white for better contrast -->
+
+    {% if users %}
+    <table class="table table-hover table-dark table-striped"> <!-- Dark table with hover and stripe effect -->
+        <thead>
+            <tr style="background-color: #343a40; color: #f8f9fa;"> <!-- Dark background for table header -->
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Date Joined</th>
+                <th scope="col">Profile</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.date_joined|date:"Y-m-d H:i" }}</td>
+                <td><a href="{% url 'adminpanel:view_user' user.id %}" class="btn btn-outline-info btn-sm">View Profile</a></td> <!-- Styled as button -->
+                <td>
+                    <!-- Add actions here (e.g., Edit/Delete User) -->
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="color: #f8f9fa;">No users available at the moment.</p> <!-- Changed to white for better visibility -->
+    {% endif %}
+</div>
+{% endblock %}
+
+
+
+{% load static %}

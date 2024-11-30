@@ -1,0 +1,17 @@
+
+{% extends 'adminpanel/admin_base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile List</title>
+</head>
+<body>
+    <h1>Profile List</h1>
+    <ul>
+        {% for profile in profiles %}
+            <li>{{ profile.user.username }} - {{ profile.profile_description }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+{% load static %}

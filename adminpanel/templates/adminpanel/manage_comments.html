@@ -1,0 +1,34 @@
+{% extends 'adminpanel/admin_base.html' %}
+
+{% block title %}
+Admin Panel | Manage Comments
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-light">Manage Comments</h1>
+    <hr class="text-light">
+
+    <div class="mt-4">
+        <ul class="list-group">
+            {% for comment in comments %}
+            <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center">
+                <div>
+                    <p><strong>Comment:</strong> {{ comment.comment }}</p>
+                    <p><strong>Status:</strong> {{ comment.status }}</p>
+                </div>
+                <div>
+                    <a href="{% url 'adminpanel:toggle_comment_visibility' comment.id %}" class="btn btn-sm {% if comment.status == 'show' %}btn-danger{% else %}btn-success{% endif %}">
+                        {% if comment.status == 'show' %}
+                            Hide
+                        {% else %}
+                            Show
+                        {% endif %}
+                    </a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

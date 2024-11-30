@@ -1,0 +1,47 @@
+{% load static %}
+{% extends 'sitevisitor/blog_details.html' %}
+
+{% block title %}{{ blog.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Blog Details Section -->
+    <div class="blog-details">
+        <h1>{{ blog.title }}</h1>
+        {% if blog.blog_image %}
+        <img src="{{ blog.blog_image.url }}" alt="{{ blog.title }}" class="img-fluid mb-3">
+        {% endif %}
+        <p>{{ blog.content }}</p>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="comments-section mt-4">
+        <h2>Comments</h2>
+        <ul class="list-unstyled">
+            {% for comment in comments %}
+                <li class="border-bottom mb-2 pb-2">
+                    <strong>{{ comment.user.username }}:</strong>
+                    <p>{{ comment.comment }}</p>
+                    <small class="text-muted">Posted on {{ comment.created_at }}</small>
+                </li>
+            {% empty %}
+                <li>No comments yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Blog List Section -->
+    <div class="blog-list mt-5">
+        <h2>Other Blogs</h2>
+        {% for blog in blogs %}
+        <div class="blog mb-3">
+            <h3>{{ blog.title }}</h3>
+            <p>{{ blog.content|truncatewords:50 }}</p>
+            <a href="{% url 'sitevisitor:view_blog' blog.id %}" class="btn btn-primary">Read more</a>
+        </div>
+        {% empty %}
+        <p>No other blogs available.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
